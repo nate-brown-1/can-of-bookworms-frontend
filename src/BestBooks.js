@@ -8,17 +8,27 @@ class BestBooks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: []
+      books: [],
+      error: false,
+      errorMessage: ''
     }
   }
 
   getBooks = async () => {
     try {
+      // query string to get book info
       let bookRequest = await axios.get(`${process.env.REACT_APP_SERVER}/books`);
+      // console.log(bookRequest);
       this.setState ({
         books: bookRequest.data
-      })
+      },
+      console.log(this.state.books)
+      );
     } catch (error) {
+      this.setState ({
+        error: true,
+        errorMessage: 'An error occurred: Type ' + error.response + ', ' + error.response.data
+      })
       console.log('An error occurred: Type ' + error.response + ', ' + error.response.data)
     }
   }
@@ -43,9 +53,13 @@ class BestBooks extends React.Component {
   ]
 
 
+  componentDidMount() {
+    this.getBooks();
+  }
+
   render() {
 
-    let booksArray = this.books.map((book, idx) => {
+    let booksArray = this.state.books.map((book, idx) => {
           return (  <Carousel.Item key={idx}>
                       <img
                         className='bookCoverClass'
@@ -54,8 +68,8 @@ class BestBooks extends React.Component {
                       />
                     <Carousel.Caption>
                       <h4>{book.title}</h4>
-                      <h5>{book.author}</h5>
-                      <p>{book.summary}</p>
+                      <h5>{book.status}</h5>
+                      <p>{book.description}</p>
                     </Carousel.Caption>
                     </Carousel.Item>
           )
@@ -63,7 +77,7 @@ class BestBooks extends React.Component {
   
     return (
       <>
-        <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+        <h2>Our Essential Lifelong Learning &amp; Formation Shelf</h2>
 
         {this.books.length ? (
           <Carousel variant='dark'>
