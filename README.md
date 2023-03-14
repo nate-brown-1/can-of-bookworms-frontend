@@ -23,14 +23,14 @@ Books are life-changing. They have the power to enlighten, educate, entertain, h
 
 ## Estimates
 
-| Name of feature | Create repositories |
+| Estimates |   |
 | --- | --- |
+| Name of feature | Create repositories |
 | Estimate of time needed to complete | 2 hours
 | Start time | 1500 13 Mar 2023
 | Finish time | 1700 23 Mar 2023
-
+|   |   |
 | Name of feature | Book Component |
-| --- | --- |
 | Estimate of time needed to complete | 2 hours |
 | Start time | 2130 13 Mar 2023 |
 | Finish time | Incomplete @ 0010 14 Mar 2023 |
