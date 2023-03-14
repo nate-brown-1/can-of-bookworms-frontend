@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Carousel from 'react-bootstrap/Carousel'
 import neuro_cover from './img/neuro_cover.jpeg'
+import './BestBooks.css'
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -52,7 +53,8 @@ class BestBooks extends React.Component {
                         alt={book.title}
                       />
                     <Carousel.Caption>
-                      <h5>{book.title}</h5>
+                      <h4>{book.title}</h4>
+                      <h5>{book.author}</h5>
                       <p>{book.summary}</p>
                     </Carousel.Caption>
                     </Carousel.Item>
