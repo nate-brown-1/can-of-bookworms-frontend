@@ -1,10 +1,9 @@
 # Can of Bookworms
 
 **Author**: Nate Brown, Trey Young
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 1.0.2 (increment the patch/fix version number if you make more commits past your first submission)
 
 Deployed Site on Netlify: [https://sunny-cheesecake-d1f37f.netlify.app]
-
 
 ## Overview
 
@@ -17,29 +16,26 @@ Books are life-changing. They have the power to enlighten, educate, entertain, h
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
 
 ## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+13 Mar 2023 1500 - v1.0.0 - first commit, repo cloned from template, site deployed to Netlify
+13 Mar 2023 2357 - v1.0.1 - working carousel, local only, not connected to server or db
+14 Mar 2023 0016 - v1.0.2 - fixed typos in BestBooks.js
 
 ## Estimates
 
-Name of feature: ________________________________
+| Name of feature | Create repositories |
+| --- | --- |
+| Estimate of time needed to complete | 2 hours
+| Start time | 1500 13 Mar 2023
+| Finish time | 1700 23 Mar 2023
 
-Estimate of time needed to complete: _____
+| Name of feature | Book Component |
+| --- | --- |
+| Estimate of time needed to complete | 2 hours |
+| Start time | 2130 13 Mar 2023 |
+| Finish time | Incomplete @ 0010 14 Mar 2023 |
 
-Start time: _____
-
-Finish time: _____
-
-Name of feature: ________________________________
-
-Estimate of time needed to complete: _____
-
-Start time: _____
-
-Finish time: _____
-
-Name of feature: ________________________________
+Name of feature:
 
 Estimate of time needed to complete: _____
 
@@ -56,12 +52,10 @@ Start time: _____
 Finish time: _____
 
 ## Credit and Collaborations
+
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
 
-
-
-
-
+Carousel built using React Bootstrap documentation located at [https://react-bootstrap.github.io/components/carousel/]
 
 ## Collaboration Agreement
 
