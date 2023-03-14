@@ -1,0 +1,8 @@
+.carousel-inner {
+  text-align: center;
+}
+
+.carousel-inner img {
+  width: 25%;
+  margin-bottom: 200px;
+}
