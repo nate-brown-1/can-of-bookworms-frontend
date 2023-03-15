@@ -6,3 +6,11 @@
   width: 25%;
   margin-bottom: 200px;
 }
+
+body {
+  text-align: center;
+}
+
+button {
+  margin-bottom: 10px;
+}
