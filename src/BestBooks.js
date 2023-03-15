@@ -1,8 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
 import Carousel from 'react-bootstrap/Carousel';
 import neuro_cover from './img/neuro_cover.jpeg';
 import './BestBooks.css';
+import { Modal } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -10,7 +13,8 @@ class BestBooks extends React.Component {
     this.state = {
       books: [],
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+      isModalDisplayed: false
     }
   }
 
@@ -22,7 +26,7 @@ class BestBooks extends React.Component {
       this.setState ({
         books: bookRequest.data
       },
-      console.log(this.state.books)
+      // console.log(this.state.books)
       );
     } catch (error) {
       this.setState ({
@@ -52,6 +56,40 @@ class BestBooks extends React.Component {
     }
   ]
 
+  handleFormSubmit = (event) => {
+    event.preventDefault();
+    let newBook = {
+      title: event.target.title.value,
+      status: event.target.status.value,
+      description: event.target.description.value
+    }
+    this.postNewBook(newBook);
+  }
+
+  postNewBook = async ( newBook ) => {
+    try {
+    // query string to POST new book to server
+    await axios.post(`${process.env.REACT_APP_SERVER}/books`, newBook);
+    } catch (error) {
+    this.setState ({
+      error: true,
+      errorMessage: 'An error occurred: Type ' + error.response + ', ' + error.response.data
+    });
+    console.log('An error occurred: Type ' + error.response + ', ' + error.response.data);
+    }  
+  }
+
+  handleFeedBookworms = () => {
+    this.setState({
+      isModalDisplayed: true
+    })
+  }
+
+  handleDoneFeeding = () => {
+    this.setState({
+      isModalDisplayed: false
+    })
+  }
 
   componentDidMount() {
     this.getBooks();
@@ -86,6 +124,41 @@ class BestBooks extends React.Component {
         ) : (
           <h3>No Books Found :(</h3>
         )}
+
+        <Button variant="primary" onClick={this.handleFeedBookworms}>
+          Feed the Bookworms!
+        </Button>
+
+        <Modal className="bookModal"
+            show={this.state.isModalDisplayed}
+            onHide={this.handleDoneFeeding}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Feed the Bookworms!</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form onSubmit={this.handleFormSubmit}>
+                  <Form.Label>Book Title
+                    <Form.Control type="text" name="title" />
+                  </Form.Label>
+                  <Form.Label>Book Status
+                    <Form.Select name="status">
+                      <option value="yes">Untouched</option>
+                      <option value="no">Chewed</option>
+                      <option value="chewed">Swallowed</option>
+                    </Form.Select>
+                  </Form.Label>
+                  <Form.Label>Book description
+                    <Form.Control type="text" name="description" />
+                  </Form.Label>
+                  <Button type="submit">Feed</Button>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer className="bookModalFooter">
+                The bookworms are always hungry...
+              </Modal.Footer>
+        </Modal>
+
       </>
     )
   }

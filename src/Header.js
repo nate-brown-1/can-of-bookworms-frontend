@@ -9,7 +9,6 @@ class Header extends React.Component {
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Navbar.Brand>Life Changing Books by Can-of-Bookworms</Navbar.Brand>
         <NavItem><Link to="/" className="nav-link">Home</Link></NavItem>
-        {/* PLACEHOLDER: render a navigation link to the about page */}
         <NavItem><Link to="/about" className="nav-link">About the Bookworms</Link></NavItem>
       </Navbar>
     )
