@@ -1,7 +1,7 @@
 # Can of Bookworms
 
 **Author**: Nate Brown, Trey Young
-**Version**: 1.0.2 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 1.0.4 (increment the patch/fix version number if you make more commits past your first submission)
 
 Deployed Site on Netlify: [https://sunny-cheesecake-d1f37f.netlify.app]
 
@@ -17,9 +17,11 @@ Books are life-changing. They have the power to enlighten, educate, entertain, h
 
 ## Change Log
 
-13 Mar 2023 1500 - v1.0.0 - first commit, repo cloned from template, site deployed to Netlify
-13 Mar 2023 2357 - v1.0.1 - working carousel, local only, not connected to server or db
-14 Mar 2023 0016 - v1.0.2 - fixed typos in BestBooks.js
+13 Mar 2023 @ 1500 - v1.0.0 - first commit, repo cloned from template, site deployed to Netlify
+13 Mar 2023 @ 2357 - v1.0.1 - working carousel, local only, not connected to server or db
+14 Mar 2023 @ 2354 - v1.0.2 - working client for book requests to server
+15 Mar 2023 @ 1230 - v1.0.3 - working delete functionality
+15 Mar 2023 @ 2004 - v1.0.4 - working update functionality
 
 ## Estimates
 
@@ -28,28 +30,22 @@ Books are life-changing. They have the power to enlighten, educate, entertain, h
 | Name of feature | Create repositories |
 | Estimate of time needed to complete | 2 hours
 | Start time | 1500 13 Mar 2023
-| Finish time | 1700 23 Mar 2023
+| Finish time | 1700 13 Mar 2023
 |   |   |
 | Name of feature | Book Component |
 | Estimate of time needed to complete | 2 hours |
 | Start time | 2130 13 Mar 2023 |
-| Finish time | Incomplete @ 0010 14 Mar 2023 |
-
-Name of feature:
-
-Estimate of time needed to complete: _____
-
-Start time: _____
-
-Finish time: _____
-
-Name of feature: ________________________________
-
-Estimate of time needed to complete: _____
-
-Start time: _____
-
-Finish time: _____
+| Finish time | 2354 14 Mar 2023 |
+|   |   |
+| Name of feature | Delete book functionality |
+| Estimate of time needed to complete | 2 hours
+| Start time | 1200 15 Mar 2023 |
+| Finish time | 1230 15 Mar 2023 |
+|   |   |
+| Name of feature | Update book functionality |
+| Estimate of time needed to complete | 3 hours |
+| Start time | 1230 15 Mar 2023 |
+| Finish time | 2004 15 Mar 2023 |
 
 ## Credit and Collaborations
 
