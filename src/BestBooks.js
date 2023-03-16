@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Carousel from 'react-bootstrap/Carousel';
 import neuro_cover from './img/neuro_cover.jpeg';
 import './BestBooks.css';
-import { Modal } from 'react-bootstrap';
-import { Form } from 'react-bootstrap';
+import BookModal from './BookModal';
+import UpdateModal from './UpdateModal';
 
 class BestBooks extends React.Component {
   constructor(props) {
@@ -196,66 +196,17 @@ class BestBooks extends React.Component {
           Feed the Bookworms!
         </Button>
 
-        <Modal className="bookModal"
-            show={this.state.isModalDisplayed}
-            onHide={this.handleDoneFeeding}
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Feed the Bookworms!</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form onSubmit={this.handleFormSubmit}>
-                  <Form.Label>Book Title
-                    <Form.Control type="text" name="title" />
-                  </Form.Label>
-                  <Form.Label>Book Status
-                    <Form.Select name="status">
-                      <option value="Untouched">Untouched</option>
-                      <option value="Chewed">Chewed</option>
-                      <option value="Swallowed">Swallowed</option>
-                    </Form.Select>
-                  </Form.Label>
-                  <Form.Label>Book description
-                    <Form.Control type="text" name="description" />
-                  </Form.Label>
-                  <Button type="submit">Feed</Button>
-                </Form>
-              </Modal.Body>
-              <Modal.Footer className="bookModalFooter">
-                The bookworms are always hungry...
-              </Modal.Footer>
-        </Modal>
+        <BookModal
+          show={this.state.isModalDisplayed}
+          onHide={this.handleDoneFeeding}
+          handleFormSubmit={this.handleFormSubmit}
+        />
 
-        <Modal className="updateModal"
-            show={this.state.isUpdateModalDisplayed}
-            onHide={this.handleDoneUpdating}
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Update a Book!</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form onSubmit={this.handleUpdateSubmit}>
-                  <Form.Label>Book Title
-                    <Form.Control type="text" name="title" />
-                  </Form.Label>
-                  <Form.Label>Book Status
-                    <Form.Select name="status">
-                      <option value="Untouched">Untouched</option>
-                      <option value="Chewed">Chewed</option>
-                      <option value="Swallowed">Swallowed</option>
-                    </Form.Select>
-                  </Form.Label>
-                  <Form.Label>Book description
-                    <Form.Control type="text" name="description" />
-                  </Form.Label>
-                  <Button type="submit">Feed</Button>
-                </Form>
-              </Modal.Body>
-              <Modal.Footer className="bookModalFooter">
-                The bookworms are still hungry...
-              </Modal.Footer>
-        </Modal>
-
+        <UpdateModal
+          show={this.state.isUpdateModalDisplayed}
+          onHide={this.handleDoneUpdating}
+          handleUpdateSubmit={this.handleUpdateSubmit}
+        />
 
       </>
     )
