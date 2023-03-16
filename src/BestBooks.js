@@ -88,8 +88,8 @@ class BestBooks extends React.Component {
         errorMessage: 'An error occurred: Type ' + error.response + ', ' + error.response.data
       });
       console.log('An error occurred: Type ' + error.response + ', ' + error.response.data);
-      }  
-    }
+    }  
+  }
 
   updateBook = async (bookToUpdate) => {
     console.log(bookToUpdate);
@@ -101,14 +101,17 @@ class BestBooks extends React.Component {
       // create new array of books from current array in state, minus deleted book
       let updatedBooks = this.state.books.map(book => {
       return book._id === bookToUpdate._id ? updatedBookFromServer.data : book});
-    // change state by replacing value of key 'books' since state cannot be mutated
-    this.setState ({
-        books: updatedBooks
-    });
-  } catch (error) {
-    this.setState ({
-      error: true,
-      errorMessage: 'An error occurred: Type ' + error.response + ', ' + error.response.data
+      // change state by replacing value of key 'books' since state cannot be mutated
+      this.setState ({
+        books: updatedBooks,
+        isUpdateModalDisplayed: false
+      });
+      // placeholder notification to confirm book added so user doesn't click multiple times
+      window.alert("Book reheated for bookworms!");
+    } catch (error) {
+      this.setState ({
+        error: true,
+        errorMessage: 'An error occurred: Type ' + error.response + ', ' + error.response.data
     });
     console.log('An error occurred: Type ' + error.response + ', ' + error.response.data);
     }  
@@ -161,13 +164,13 @@ class BestBooks extends React.Component {
 
     let booksArray = this.state.books.map((book, _id) => {
           return (  <Carousel.Item key={_id}>
+                      <Button variant="success" onClick={() => this.handleStartUpdating(book)}>Update Book</Button>
                       <img
                         className='bookCoverClass'
                         src={neuro_cover}
                         alt={book.title}
                       />
                       <Button variant="danger" onClick={() => this.deleteBook(book._id)}>Delete Book</Button>
-                      <Button variant="success" onClick={() => this.handleStartUpdating(book)}>Update Book</Button>
                       <Carousel.Caption>
                         <h4>{book.title}</h4>
                         <h5>{book.status}</h5>

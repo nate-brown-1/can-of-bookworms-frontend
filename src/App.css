@@ -4,11 +4,13 @@
 
 .carousel-inner img {
   width: 25%;
-  margin-bottom: 200px;
+  margin: 0 50px 200px 50px;
 }
 
 body {
   text-align: center;
+  height: 100%;
+
 }
 
 button {
