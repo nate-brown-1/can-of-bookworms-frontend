@@ -14,13 +14,15 @@ class BestBooks extends React.Component {
       books: [],
       error: false,
       errorMessage: '',
-      isModalDisplayed: false
+      isModalDisplayed: false,
+      isUpdateModalDisplayed: false,
+      bookToUpdate: ''
     }
   }
 
   getBooks = async () => {
     try {
-      // query string to get book info
+      // query string to get book info from server
       let bookRequest = await axios.get(`${process.env.REACT_APP_SERVER}/books`);
       // console.log(bookRequest);
       this.setState ({
@@ -37,25 +39,6 @@ class BestBooks extends React.Component {
     }
   }
 
-
-  books = [
-    { title: 'Neuromancer',
-      author: 'William Gibson',
-      coverURL: './neuro_cover.jpeg',
-      summary: 'A hacker gets drawn into a conspiracy'
-    },
-    { title: 'Snow Crash',
-      author: 'Neal Stephenson',
-      coverURL: 'snow_URL',
-      summary: 'A pizza delivery driver gets drawn into a conspiracy'
-    },
-    { title: 'The Stars My Destination',
-      author: 'Alfred Bester',
-      coverURL: 'stars_URL',
-      summary: 'A pilot wakes up from cryosleep and gets drawn into a conspiracy'
-    }
-  ]
-
   handleFormSubmit = (event) => {
     event.preventDefault();
     let newBook = {
@@ -69,7 +52,13 @@ class BestBooks extends React.Component {
   postNewBook = async ( newBook ) => {
     try {
     // query string to POST new book to server
-    await axios.post(`${process.env.REACT_APP_SERVER}/books`, newBook);
+    let createdBook = await axios.post(`${process.env.REACT_APP_SERVER}/books`, newBook);
+    this.setState({
+      books: [...this.state.books, createdBook.data],
+      isModalDisplayed: false
+    });
+    // placeholder notification to confirm book added so user doesn't click multiple times
+    window.alert("Book fed to bookworms!");
     } catch (error) {
     this.setState ({
       error: true,
@@ -79,15 +68,88 @@ class BestBooks extends React.Component {
     }  
   }
 
+  deleteBook = async (id) => {
+    // query string to send delete request to server
+    // format = process.env.REACT_APP_SERVER/books/id
+    try {
+      await axios.delete(`${process.env.REACT_APP_SERVER}/books/${id}`)
+      // create new array of books from current array in state, minus deleted book
+      let updatedBooks = this.state.books.filter(book => book._id !== id);
+      // change state by replacing value of key 'books' since state cannot be mutated
+      this.setState ({
+        books: updatedBooks,
+        isModalDisplayed: false
+      });
+      // placeholder notification to confirm book added so user doesn't click multiple times
+      window.alert("Book taken away from bookworms!");
+    } catch (error) {
+      this.setState ({
+        error: true,
+        errorMessage: 'An error occurred: Type ' + error.response + ', ' + error.response.data
+      });
+      console.log('An error occurred: Type ' + error.response + ', ' + error.response.data);
+      }  
+    }
+
+  updateBook = async (bookToUpdate) => {
+    console.log(bookToUpdate);
+    // query string to send PUT request to server
+    // PUT will replace entire current instance of book with updated new instance
+    // format = process.env.REACT_APP_SERVER/books/id
+    try {
+      let updatedBookFromServer = await axios.put(`${process.env.REACT_APP_SERVER}/books/${bookToUpdate._id}`, bookToUpdate);
+      // create new array of books from current array in state, minus deleted book
+      let updatedBooks = this.state.books.map(book => {
+      return book._id === bookToUpdate._id ? updatedBookFromServer.data : book});
+    // change state by replacing value of key 'books' since state cannot be mutated
+    this.setState ({
+        books: updatedBooks
+    });
+  } catch (error) {
+    this.setState ({
+      error: true,
+      errorMessage: 'An error occurred: Type ' + error.response + ', ' + error.response.data
+    });
+    console.log('An error occurred: Type ' + error.response + ', ' + error.response.data);
+    }  
+  }
+
+  handleUpdateSubmit = (event) => {
+    event.preventDefault();
+    let bookToUpdate = {
+      title: event.target.title.value || this.state.bookToUpdate.title,
+      status: event.target.status.value || this.state.bookToUpdate.status,
+      description: event.target.description.value || this.state.bookToUpdate.description,
+      _id: this.state.bookToUpdate._id,
+      __v: this.state.bookToUpdate.__v
+    }
+    this.updateBook(bookToUpdate);
+  }
+
   handleFeedBookworms = () => {
     this.setState({
       isModalDisplayed: true
     })
   }
 
-  handleDoneFeeding = () => {
+  handleStartUpdating = (book) => {
+    this.setState({
+      isUpdateModalDisplayed: true,
+      bookToUpdate: book
+    },
+    // () => (console.log(this.state.bookToUpdate))
+    );
+  }
+
+  handleDoneFeeding = (id) => {
     this.setState({
       isModalDisplayed: false
+    })
+  }
+
+  handleDoneUpdating = () => {
+    this.setState({
+      isUpdateModalDisplayed: false
     })
   }
 
@@ -97,18 +159,20 @@ class BestBooks extends React.Component {
 
   render() {
 
-    let booksArray = this.state.books.map((book, idx) => {
-          return (  <Carousel.Item key={idx}>
+    let booksArray = this.state.books.map((book, _id) => {
+          return (  <Carousel.Item key={_id}>
                       <img
                         className='bookCoverClass'
                         src={neuro_cover}
                         alt={book.title}
                       />
-                    <Carousel.Caption>
-                      <h4>{book.title}</h4>
-                      <h5>{book.status}</h5>
-                      <p>{book.description}</p>
-                    </Carousel.Caption>
+                      <Button variant="danger" onClick={() => this.deleteBook(book._id)}>Delete Book</Button>
+                      <Button variant="success" onClick={() => this.handleStartUpdating(book)}>Update Book</Button>
+                      <Carousel.Caption>
+                        <h4>{book.title}</h4>
+                        <h5>{book.status}</h5>
+                        <p>{book.description}</p>
+                      </Carousel.Caption>
                     </Carousel.Item>
           )
       });
@@ -117,7 +181,7 @@ class BestBooks extends React.Component {
       <>
         <h2>Our Essential Lifelong Learning &amp; Formation Shelf</h2>
 
-        {this.books.length ? (
+        {this.state.books.length ? (
           <Carousel variant='dark'>
             {booksArray}
           </Carousel>
@@ -143,9 +207,9 @@ class BestBooks extends React.Component {
                   </Form.Label>
                   <Form.Label>Book Status
                     <Form.Select name="status">
-                      <option value="yes">Untouched</option>
-                      <option value="no">Chewed</option>
-                      <option value="chewed">Swallowed</option>
+                      <option value="Untouched">Untouched</option>
+                      <option value="Chewed">Chewed</option>
+                      <option value="Swallowed">Swallowed</option>
                     </Form.Select>
                   </Form.Label>
                   <Form.Label>Book description
@@ -158,6 +222,37 @@ class BestBooks extends React.Component {
                 The bookworms are always hungry...
               </Modal.Footer>
         </Modal>
+
+        <Modal className="updateModal"
+            show={this.state.isUpdateModalDisplayed}
+            onHide={this.handleDoneUpdating}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Update a Book!</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form onSubmit={this.handleUpdateSubmit}>
+                  <Form.Label>Book Title
+                    <Form.Control type="text" name="title" />
+                  </Form.Label>
+                  <Form.Label>Book Status
+                    <Form.Select name="status">
+                      <option value="Untouched">Untouched</option>
+                      <option value="Chewed">Chewed</option>
+                      <option value="Swallowed">Swallowed</option>
+                    </Form.Select>
+                  </Form.Label>
+                  <Form.Label>Book description
+                    <Form.Control type="text" name="description" />
+                  </Form.Label>
+                  <Button type="submit">Feed</Button>
+                </Form>
+              </Modal.Body>
+              <Modal.Footer className="bookModalFooter">
+                The bookworms are still hungry...
+              </Modal.Footer>
+        </Modal>
+
 
       </>
     )
