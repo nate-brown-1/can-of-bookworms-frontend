@@ -1,4 +1,5 @@
 import React from 'react';
+import { withAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Carousel from 'react-bootstrap/Carousel';
@@ -21,15 +22,23 @@ class BestBooks extends React.Component {
   }
 
   getBooks = async () => {
-    try {
-      // query string to get book info from server
-      let bookRequest = await axios.get(`${process.env.REACT_APP_SERVER}/books`);
-      // console.log(bookRequest);
-      this.setState ({
-        books: bookRequest.data
-      },
-      // console.log(this.state.books)
-      );
+    if (this.props.auth0.isAuthenticated) {
+      try {
+        // get a token from Auth0
+        const res = await this.props.auth0.getIdTokenClaims();
+
+        // JWT is the raw part of the token
+        const jwt = res.__raw;
+        console.log(jwt);
+         
+        // query string to get book info from server
+        let bookRequest = await axios.get(`${process.env.REACT_APP_SERVER}/books`);
+        // console.log(bookRequest);
+        this.setState ({
+          books: bookRequest.data
+        },
+        // console.log(this.state.books)
+        );
     } catch (error) {
       this.setState ({
         error: true,
@@ -37,7 +46,7 @@ class BestBooks extends React.Component {
       })
       console.log('An error occurred: Type ' + error.response + ', ' + error.response.data)
     }
-  }
+  }}
 
   handleFormSubmit = (event) => {
     event.preventDefault();
@@ -213,4 +222,4 @@ class BestBooks extends React.Component {
   }
 }
 
-export default BestBooks;
+export default withAuth0(BestBooks);
