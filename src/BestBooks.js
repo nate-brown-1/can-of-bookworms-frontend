@@ -29,16 +29,29 @@ class BestBooks extends React.Component {
 
         // JWT is the raw part of the token
         const jwt = res.__raw;
+        
+        // log the token
         console.log(jwt);
-         
-        // query string to get book info from server
-        let bookRequest = await axios.get(`${process.env.REACT_APP_SERVER}/books`);
-        // console.log(bookRequest);
+        
+        // declare config with headers for axios request
+        const config = {
+          method: 'get',
+          baseURL: process.env.REACT_APP_SERVER,
+          url: '/books',
+          headers: {
+            "Authorization": `Bearer ${jwt}`
+          }
+        }
+
+        // receive results of axios request using above config
+        const bookResults = await axios(config);
+
+        console.log(bookResults.data);
+
+        // add books to state
         this.setState ({
-          books: bookRequest.data
-        },
-        // console.log(this.state.books)
-        );
+          books: bookResults.data
+        });
     } catch (error) {
       this.setState ({
         error: true,
