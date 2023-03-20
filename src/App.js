@@ -19,25 +19,29 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <h1>New</h1>
+        <h1>Please login to meet the bookworms</h1>
         {this.props.auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
         <Profile></Profile>
-        <Router>
-          <Header />
-          <Routes>
-            <Route 
-              exact path="/"
-              element={<BestBooks 
+        {
+          this.props.auth0.isAuthenticated
+          &&
+          <Router>
+            <Header />
+            <Routes>
+              <Route 
+                exact path="/"
+                element={<BestBooks 
                 />}
-            >
-            </Route>
-            <Route
-              exact path="/about"
-              element={<About />}>
-            </Route>
-          </Routes>
-          <Footer />
-        </Router>
+                >
+              </Route>
+              <Route
+                exact path="/about"
+                element={<About />}>
+              </Route>
+            </Routes>
+            <Footer />
+          </Router>
+        }
       </>
     )
   }
